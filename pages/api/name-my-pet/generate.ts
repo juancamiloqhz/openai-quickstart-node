@@ -36,9 +36,10 @@ export default async function handler(
       prompt: generatePrompt(animal),
       temperature: 0.6,
     })
-    console.log({ choices: completion.data.choices })
+    // console.log({ choices: completion.data.choices })
     res.status(200).json({ result: completion.data.choices[0].text })
-  } catch (error) {
+  } catch (err) {
+    const error = err as Error & { response?: { status: number; data: any } }
     // Consider adjusting the error handling logic for your use case
     if (error.response) {
       console.error(error.response.status, error.response.data)
