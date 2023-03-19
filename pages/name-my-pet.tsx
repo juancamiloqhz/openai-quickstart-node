@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { useState } from 'react'
 import styles from './index.module.css'
 import Image from 'next/image'
-import Header from '@/components/shared/Header'
-import Footer from '@/components/shared/Footer'
+import Page from '@/components/shared/Layouts/Page'
+import { Button } from '@/components/chat/Button'
 
 export default function NameMyPet() {
   const [loading, setLoading] = useState(false)
@@ -43,14 +43,13 @@ export default function NameMyPet() {
   }
 
   return (
-    <div>
+    <Page title="Name my pet">
       <Head>
         <title>Name My Pet</title>
         <link rel="icon" href="/dog.png" />
       </Head>
-      <Header title="Name my pet" />
 
-      <main className={styles.main}>
+      <div className="flex flex-col">
         <Image
           src="/dog.png"
           alt="Website Logo"
@@ -59,7 +58,7 @@ export default function NameMyPet() {
           className={styles.icon}
         />
         <h3>Name my pet</h3>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="flex flex-col">
           <input
             type="text"
             name="animal"
@@ -67,14 +66,12 @@ export default function NameMyPet() {
             value={animalInput}
             onChange={(e) => setAnimalInput(e.target.value)}
           />
-          <input
-            type="submit"
-            value={loading ? 'Generating...' : 'Generate names'}
-          />
+          <Button type="submit">
+            {loading ? 'Generating...' : 'Generate names'}
+          </Button>
         </form>
         <div className={styles.result}>{result}</div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </Page>
   )
 }

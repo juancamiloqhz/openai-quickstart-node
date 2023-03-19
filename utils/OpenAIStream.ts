@@ -4,7 +4,7 @@ import {
   ReconnectInterval,
 } from 'eventsource-parser'
 
-export type ChatGPTAgent = 'user' | 'system'
+export type ChatGPTAgent = 'user' | 'system' | 'assistant'
 
 export interface ChatGPTMessage {
   role: ChatGPTAgent
@@ -20,6 +20,8 @@ export interface OpenAIStreamPayload {
   presence_penalty: number
   max_tokens: number
   stream: boolean
+  stop?: string[]
+  user?: string
   n: number
 }
 
@@ -29,11 +31,17 @@ export async function OpenAIStream(payload: OpenAIStreamPayload) {
 
   let counter = 0
 
+  const requestHeaders: Record<string, string> = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${process.env.OPENAI_API_KEY ?? ''}`,
+  }
+
+  if (process.env.OPENAI_API_ORG) {
+    requestHeaders['OpenAI-Organization'] = process.env.OPENAI_API_ORG
+  }
+
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY ?? ''}`,
-    },
+    headers: requestHeaders,
     method: 'POST',
     body: JSON.stringify(payload),
   })

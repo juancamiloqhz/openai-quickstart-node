@@ -4,10 +4,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Toaster, toast } from 'react-hot-toast'
 import DropDown, { VibeType } from '@/components/twitter-bio/DropDown'
-import Footer from '@/components/shared/Footer'
 import Github from '@/components/shared/GitHub'
-import Header from '@/components/shared/Header'
 import LoadingDots from '@/components/shared/LoadingDots'
+import Page from '@/components/shared/Layouts/Page'
 
 const TwitterBio: NextPage = () => {
   const [loading, setLoading] = React.useState(false)
@@ -71,14 +70,16 @@ const TwitterBio: NextPage = () => {
   }
 
   return (
-    <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
+    <Page
+      title="Twitter Bio"
+      className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2"
+    >
       <Head>
         <title>Twitter Bio Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header title="Twitter Bio" />
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
+      <div className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
         <a
           className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
           href="https://github.com/Nutlope/twitterbio"
@@ -184,9 +185,8 @@ const TwitterBio: NextPage = () => {
             </>
           )}
         </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </Page>
   )
 }
 
